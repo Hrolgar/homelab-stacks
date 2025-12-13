@@ -1,15 +1,30 @@
 stages:
   - deploy
 
-deploy:
+.deploy_template: &deploy
   stage: deploy
+  image: alpine:latest
   tags:
     - docker
-  image: docker:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
   script:
-    - cd $CI_PROJECT_DIR
-    - docker compose pull
-    - docker compose up -d
+    - ssh $DEPLOY_USER@$DEPLOY_HOST "cd /opt/nas/compose/$STACK_NAME && docker compose pull && docker compose up -d"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-      when: manual
+
+deploy-gitlab:
+  <<: *deploy
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    STACK_NAME: "gitlab"
+
+deploy-gitlab-runner:
+  <<: *deploy
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    STACK_NAME: "gitlab-runner"
