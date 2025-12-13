@@ -1,6 +1,9 @@
 stages:
   - deploy
 
+variables:
+  DEPLOY_USER: "hrolgar"
+
 .deploy_template: &deploy
   stage: deploy
   image: alpine:latest
