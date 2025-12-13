@@ -1,0 +1,15 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:18.4.6-ce.0 
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: 'gitlab.hrolgar.com'
+    shm_size: '256m'
+    volumes:
+      - ./config/gitlab.rb:/etc/gitlab/gitlab.rb:ro
+      - /opt/nas/apps/gitlab/config:/etc/gitlab
+      - /opt/nas/apps/gitlab/logs:/var/log/gitlab
+      - /opt/nas/apps/gitlab/data:/var/opt/gitlab
+    ports:
+      - "8080:80"
+      - "2222:22"
