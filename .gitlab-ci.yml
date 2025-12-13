@@ -1,0 +1,15 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  tags:
+    - docker
+  image: docker:latest
+  script:
+    - cd $CI_PROJECT_DIR
+    - docker compose pull
+    - docker compose up -d
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
