@@ -48,6 +48,9 @@ variables:
 deploy-gitlab:
   <<: *deploy
   when: manual
+  rules:
+    - changes:
+        - ullrinfrastructure/gitlab/**/*
   allow_failure: false
   variables:
     DEPLOY_HOST: "10.69.1.50"
@@ -56,6 +59,9 @@ deploy-gitlab:
 
 deploy-gitlab-worker:
   <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/gitlab/**/*
   variables:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
