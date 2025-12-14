@@ -72,12 +72,8 @@ deploy-gitlab-runner-01:
 deploy-infra-monitoring:
   <<: *deploy
   rules:
-  - if: '$CI_COMMIT_BRANCH == "main"'
-    changes:
-      - ullrinfrastructure/infra-monitoring/**/*
-  # rules:
-  #   - changes:
-  #       - ullrinfrastructure/infra-monitoring/**/*
+    - changes:
+        - ullrinfrastructure/infra-monitoring/**/*
   variables:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
