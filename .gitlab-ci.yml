@@ -17,6 +17,14 @@ variables:
     - ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
   script:
     - |
+      ENV_ARG=""
+      if [ -n "${ENV_FILE_VAR:-}" ]; then
+        ENV_FILE_PATH="${!ENV_FILE_VAR}"
+        scp "$ENV_FILE_PATH" \
+          $DEPLOY_USER@$DEPLOY_HOST:/opt/nas/compose/$VM_NAME/$STACK_NAME/.env.ci
+        ENV_ARG="--env-file .env.ci"
+      fi
+
       ssh $DEPLOY_USER@$DEPLOY_HOST "
         VM_NAME='$VM_NAME'
         STACK_NAME='$STACK_NAME'
@@ -31,18 +39,8 @@ variables:
         git fetch origin
         git reset --hard origin/main
 
-        cd \$VM_NAME/\$STACK_NAME
-      
-        ENV_ARG=""
-
-        if [ -n "${ENV_FILE_VAR:-}" ]; then
-          umask 077
-          cat <<'EOF' > .env.ci
-        $(cat "${!ENV_FILE_VAR}")
-        EOF
-          ENV_ARG="--env-file .env.ci"
-        fi
-
+        cd \$VM_NAME/\$STACK_NAME  
+    
         docker compose pull
         docker compose $ENV_ARG up -d ${FORCE_RECREATE:-}
 
