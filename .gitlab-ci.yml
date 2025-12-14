@@ -17,7 +17,21 @@ variables:
     - ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
   script:
     - |
-      ssh $DEPLOY_USER@$DEPLOY_HOST "
+        # --- ensure target directory exists ---
+        ssh $DEPLOY_USER@$DEPLOY_HOST "
+          mkdir -p /opt/nas/compose/$VM_NAME/$STACK_NAME
+        "
+
+        # --- copy env file from CI runner ---
+        ENV_ARG=""
+        if [ -n "${ENV_FILE_PATH:-}" ]; then
+          scp "$ENV_FILE_PATH" \
+            $DEPLOY_USER@$DEPLOY_HOST:/opt/nas/compose/$VM_NAME/$STACK_NAME/.env.ci
+          ENV_ARG="--env-file .env.ci"
+        fi
+
+        # --- deploy on remote host ---
+        ssh $DEPLOY_USER@$DEPLOY_HOST "
         VM_NAME='$VM_NAME'
         STACK_NAME='$STACK_NAME'
 
