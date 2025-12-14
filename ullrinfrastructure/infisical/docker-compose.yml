@@ -60,7 +60,7 @@ services:
     environment:
       POSTGRES_USER: infisical
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: infisical 
+      POSTGRES_DB: infisical
 
     volumes:
       - /opt/infisical/postgres/data:/var/lib/postgresql/data
