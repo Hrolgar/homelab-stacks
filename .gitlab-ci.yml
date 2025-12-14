@@ -25,6 +25,8 @@ variables:
 
         echo \"Deploying \$STACK_NAME on \$(hostname)\"
 
+        sudo chown -R hrolgar:hrolgar /opt/nas/compose
+
         cd /opt/nas/compose
         git fetch origin
         git reset --hard origin/main
