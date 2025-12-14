@@ -69,7 +69,7 @@ services:
       - infisical
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U infisical"]
+      test: ["CMD-SHELL", "pg_isready -U infisical"] 
       interval: 5s
       timeout: 10s
       retries: 10
