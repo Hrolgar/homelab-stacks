@@ -33,13 +33,18 @@ variables:
 
         cd \$VM_NAME/\$STACK_NAME
       
-      umask 077
-      cat <<'EOF' > .env.ci
-      $(cat "$MONITORING_ENV_FILE")
-      EOF
+        ENV_ARG=""
 
-      docker compose pull
-      docker compose --env-file .env.ci up -d ${FORCE_RECREATE:-}
+        if [ -n "${ENV_FILE_VAR:-}" ]; then
+          umask 077
+          cat <<'EOF' > .env.ci
+        $(cat "${!ENV_FILE_VAR}")
+        EOF
+          ENV_ARG="--env-file .env.ci"
+        fi
+
+        docker compose pull
+        docker compose $ENV_ARG up -d ${FORCE_RECREATE:-}
 
         echo \"Post-deploy status:\"
         docker compose ps
@@ -84,6 +89,7 @@ deploy-infra-monitoring:
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "infra-monitoring"
     FORCE_RECREATE: "--force-recreate"
+    ENV_FILE_VAR: "MONITORING_ENV_FILE"
 
 
 

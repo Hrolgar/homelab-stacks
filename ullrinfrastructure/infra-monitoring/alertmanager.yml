@@ -2,28 +2,23 @@ global:
   resolve_timeout: 5m
 
 route:
-  receiver: "null"
+  receiver: discord
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
 
-receivers: 
-  - name: "null"
-
-
-# route:
-#   receiver: "discord"
-#   group_by: ["alertname"]
-#   group_wait: 30s
-#   group_interval: 5m
-#   repeat_interval: 4h
-
-# receivers:
-#   - name: "discord"
-#     discord_configs:
-#       - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
-#         title: "{{ .CommonAnnotations.summary }}"
-#         message: |
-#           {{ range .Alerts }}
-#           **Alert:** {{ .Annotations.summary }}
-#           **Description:** {{ .Annotations.description }}
-#           **Severity:** {{ .Labels.severity }}
-#           **StartsAt:** {{ .StartsAt }}
-#           {{ end }} 
+receivers:
+  - name: discord
+    discord_configs:
+      - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
+        send_resolved: true
+        # Optional custom templates:
+        title: "{{ .CommonLabels.alertname }}"
+        message: |
+          {{ range .Alerts }}
+          **Alert:** {{ .Annotations.summary }}
+          **Description:** {{ .Annotations.description }}
+          **Severity:** {{ .Labels.severity }}
+          **StartsAt:** {{ .StartsAt }}
+          {{ end }}
