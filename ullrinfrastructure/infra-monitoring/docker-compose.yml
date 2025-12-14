@@ -25,4 +25,4 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - /opt/nas/apps/infra-monitoring/alertmanager:/etc/alertmanager
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
