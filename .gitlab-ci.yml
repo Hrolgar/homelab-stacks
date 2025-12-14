@@ -45,6 +45,8 @@ variables:
         git fetch origin
         git reset --hard origin/main
     
+        cd $VM_NAME/$STACK_NAME
+        
         docker compose pull
         docker compose $ENV_ARG up -d ${FORCE_RECREATE:-}
 
