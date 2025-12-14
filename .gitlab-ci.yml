@@ -18,8 +18,7 @@ variables:
   script:
     - |
       ENV_ARG=""
-      if [ -n "${ENV_FILE_VAR:-}" ]; then
-        ENV_FILE_PATH="${!ENV_FILE_VAR}"
+      if [ -n "${ENV_FILE_PATH:-}" ]; then
         scp "$ENV_FILE_PATH" \
           $DEPLOY_USER@$DEPLOY_HOST:/opt/nas/compose/$VM_NAME/$STACK_NAME/.env.ci
         ENV_ARG="--env-file .env.ci"
@@ -87,8 +86,7 @@ deploy-infra-monitoring:
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "infra-monitoring"
     FORCE_RECREATE: "--force-recreate"
-    ENV_FILE_VAR: "MONITORING_ENV_FILE"
-
+    ENV_FILE_PATH: "$MONITORING_ENV_FILE"
 
 
 # ============================================
