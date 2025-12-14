@@ -72,7 +72,6 @@ deploy-infra-monitoring:
   rules:
     - changes:
         - ullrinfrastructure/infra-monitoring/**/*
-    - when: never
   variables:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
