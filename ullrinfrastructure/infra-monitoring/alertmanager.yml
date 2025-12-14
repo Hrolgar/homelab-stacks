@@ -3,7 +3,7 @@ global:
 
 route:
   receiver: discord
-  group_by: ['alertname']
+  group_by: ["alertname"]
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
@@ -13,12 +13,3 @@ receivers:
     discord_configs:
       - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
         send_resolved: true
-        # Optional custom templates:
-        title: "{{ .CommonLabels.alertname }}"
-        message: |
-          {{ range .Alerts }}
-          **Alert:** {{ .Annotations.summary }}  
-          **Description:** {{ .Annotations.description }}
-          **Severity:** {{ .Labels.severity }}
-          **StartsAt:** {{ .StartsAt }}
-          {{ end }}
