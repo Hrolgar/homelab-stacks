@@ -8,6 +8,7 @@ services:
     volumes:
       - /opt/nas/apps/infra-monitoring/prometheus:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alerts.yml:/etc/prometheus/alerts:ro
 
   grafana:
     image: grafana/grafana:latest

@@ -32,7 +32,7 @@ variables:
         cd \$VM_NAME/\$STACK_NAME
 
         docker compose pull
-        docker compose up -d
+        docker compose up -d ${FORCE_RECREATE:-}
 
         echo \"Post-deploy status:\"
         docker compose ps
@@ -76,6 +76,7 @@ deploy-infra-monitoring:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "infra-monitoring"
+    FORCE_RECREATE: "--force-recreate"
 
 
 
