@@ -16,7 +16,25 @@ variables:
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
   script:
-    - ssh $DEPLOY_USER@$DEPLOY_HOST "cd /opt/nas/compose && git pull && cd $VM_NAME/$STACK_NAME && docker compose pull && docker compose up -d"
+    - |
+      ssh $DEPLOY_USER@$DEPLOY_HOST '
+        set -euo pipefail
+
+        echo "Deploying $STACK_NAME on $(hostname)"
+
+        cd /opt/nas/compose
+
+        git fetch origin
+        git reset --hard origin/main
+
+        cd '"$VM_NAME"'/'"$STACK_NAME"'
+
+        docker compose pull
+        docker compose up -d
+
+        echo "Post-deploy status:"
+        docker compose ps
+      '
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
@@ -26,17 +44,12 @@ variables:
 
 deploy-gitlab:
   <<: *deploy
+  when: manual
+  allow_failure: false
   variables:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "gitlab"
-
-# deploy-gitlab-runner:
-#   <<: *deploy
-#   variables:
-#     DEPLOY_HOST: "10.69.1.50"
-#     VM_NAME: "ullrinfrastructure"
-#     STACK_NAME: "gitlab-runner"
 
 # ============================================
 # ULLRMEDIA (add IP when ready)
