@@ -21,14 +21,11 @@ variables:
       ssh $DEPLOY_USER@$DEPLOY_HOST "
         mkdir -p /opt/nas/compose/$VM_NAME/$STACK_NAME
       "
-
       # --- copy env file from CI runner ---
-      ENV_ARG=""
-      if [ -n "${ENV_FILE_PATH:-}" ]; then
-        scp "$ENV_FILE_PATH" \
-          $DEPLOY_USER@$DEPLOY_HOST:/opt/nas/compose/$VM_NAME/$STACK_NAME/.env.ci
-        ENV_ARG="--env-file .env.ci"
-      fi
+        if [ -n "${ENV_FILE_PATH:-}" ]; then
+          scp "$ENV_FILE_PATH" \
+            $DEPLOY_USER@$DEPLOY_HOST:/opt/nas/compose/$VM_NAME/$STACK_NAME/.env
+        fi
 
       # --- deploy on remote host ---
       ssh $DEPLOY_USER@$DEPLOY_HOST "
@@ -48,7 +45,7 @@ variables:
         cd $VM_NAME/$STACK_NAME
         
         docker compose pull
-        docker compose $ENV_ARG up -d ${FORCE_RECREATE:-}
+        docker compose up -d ${FORCE_RECREATE:-}
 
         echo \"Post-deploy status:\"
         docker compose ps

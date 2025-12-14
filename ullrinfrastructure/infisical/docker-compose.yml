@@ -38,7 +38,7 @@ services:
 
 
   redis:
-    container_name: infisical-redis
+    container_name: infisical-redis 
     image: redis
     restart: always
 
