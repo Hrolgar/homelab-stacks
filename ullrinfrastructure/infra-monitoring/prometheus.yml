@@ -21,3 +21,8 @@ scrape_configs:
     static_configs:
       - targets: ["10.69.1.50:9168"]
 
+  - job_name: "cadvisor"
+    static_configs:
+      - targets: ["cadvisor:8080"]
+
+
