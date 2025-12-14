@@ -54,6 +54,14 @@ deploy-gitlab:
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "gitlab"
 
+deploy-gitlab-worker:
+  <<: *deploy
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "gitlab-worker"
+
+
 # ============================================
 # ULLRMEDIA (add IP when ready)
 # ============================================
