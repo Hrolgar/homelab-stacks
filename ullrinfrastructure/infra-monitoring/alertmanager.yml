@@ -26,4 +26,4 @@ receivers:
 #           **Description:** {{ .Annotations.description }}
 #           **Severity:** {{ .Labels.severity }}
 #           **StartsAt:** {{ .StartsAt }}
-#           {{ end }}
+#           {{ end }} 

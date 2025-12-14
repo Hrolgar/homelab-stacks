@@ -32,9 +32,14 @@ variables:
         git reset --hard origin/main
 
         cd \$VM_NAME/\$STACK_NAME
+      
+      umask 077
+      cat <<'EOF' > .env.ci
+      $(cat "$MONITORING_ENV_FILE")
+      EOF
 
-        docker compose pull
-        docker compose up -d ${FORCE_RECREATE:-}
+      docker compose pull
+      docker compose --env-file .env.ci up -d ${FORCE_RECREATE:-}
 
         echo \"Post-deploy status:\"
         docker compose ps
