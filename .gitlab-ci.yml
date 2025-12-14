@@ -59,7 +59,7 @@ deploy-gitlab-worker:
   variables:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
-    STACK_NAME: "gitlab-worker"
+    STACK_NAME: "gitlab-runner"
 
 
 # ============================================
