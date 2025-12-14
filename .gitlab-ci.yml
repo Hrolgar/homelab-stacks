@@ -89,6 +89,18 @@ deploy-infra-monitoring:
     ENV_FILE_PATH: "$MONITORING_ENV_FILE"
 
 
+deploy-infisical:
+  <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/infisical/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "infisical"
+    ENV_FILE_PATH: "$INFISICAL_ENV_FILE"
+
+
 # ============================================
 # ULLRMEDIA (add IP when ready)
 # ============================================
