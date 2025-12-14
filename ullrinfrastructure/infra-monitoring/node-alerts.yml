@@ -1,21 +1,20 @@
 groups:
-- name: node-final
+- name: homelab
   rules:
-
-  - alert: DiskAlmostFull
-    expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.10
-    for: 10m
-    labels:
-      severity: critical
-
-  - alert: HighCPUUsage
-    expr: avg(rate(node_cpu_seconds_total{mode!="idle"}[5m])) > 0.85
+  - alert: HostDiskAlmostFull
+    expr: node_filesystem_avail_bytes / node_filesystem_size_bytes < 0.10
     for: 10m
     labels:
       severity: warning
 
-  - alert: NodeExporterDown
-    expr: up{job="node-exporter"} == 0
+  - alert: ContainerHighCPU
+    expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+    for: 5m
+    labels:
+      severity: warning
+
+  - alert: GitLabDown
+    expr: up{job="gitlab"} == 0
     for: 2m
     labels:
       severity: critical
