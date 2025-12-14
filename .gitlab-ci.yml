@@ -15,28 +15,28 @@ variables:
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-script:
-  - |
-    ssh $DEPLOY_USER@$DEPLOY_HOST "
-      VM_NAME='$VM_NAME'
-      STACK_NAME='$STACK_NAME'
+  script:
+    - |
+      ssh $DEPLOY_USER@$DEPLOY_HOST "
+        VM_NAME='$VM_NAME'
+        STACK_NAME='$STACK_NAME'
 
-      set -euo pipefail
+        set -euo pipefail
 
-      echo \"Deploying \$STACK_NAME on \$(hostname)\"
+        echo \"Deploying \$STACK_NAME on \$(hostname)\"
 
-      cd /opt/nas/compose
-      git fetch origin
-      git reset --hard origin/main
+        cd /opt/nas/compose
+        git fetch origin
+        git reset --hard origin/main
 
-      cd \$VM_NAME/\$STACK_NAME
+        cd \$VM_NAME/\$STACK_NAME
 
-      docker compose pull
-      docker compose up -d
+        docker compose pull
+        docker compose up -d
 
-      echo \"Post-deploy status:\"
-      docker compose ps
-    "
+        echo \"Post-deploy status:\"
+        docker compose ps
+      "
 
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
