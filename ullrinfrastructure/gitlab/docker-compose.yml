@@ -2,7 +2,7 @@ services:
   gitlab:
     image: gitlab/gitlab-ce:18.4.6-ce.0 
     container_name: gitlab
-    restart: unless-stopped
+    restart: unless-stopped 
     hostname: 'gitlab.hrolgar.com'
     shm_size: '256m'
     volumes:
