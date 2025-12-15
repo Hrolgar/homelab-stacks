@@ -104,6 +104,16 @@ deploy-infisical:
     STACK_NAME: "infisical"
     ENV_FILE_PATH: "$INFISICAL_ENV_FILE"
 
+deploy-admin:
+  <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/admin/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "admin"
+    ENV_FILE_PATH: "$ADMIN_ENV_FILE"
 
 # ============================================
 # ULLRMEDIA (add IP when ready)
