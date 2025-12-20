@@ -26,13 +26,13 @@ route:
 receivers:
   - name: discord-critical
     webhook_configs:
-      - url: "${DISCORD_ALERT_WEBHOOK_URL}"
+      - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
         send_resolved: true
         message: '{{ template "discord.default.message" . }}'
 
   - name: discord-warning
     webhook_configs:
-      - url: "${DISCORD_ALERT_WEBHOOK_URL}"
+      - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
         send_resolved: true
         message: '{{ template "discord.default.message" . }}'
 
