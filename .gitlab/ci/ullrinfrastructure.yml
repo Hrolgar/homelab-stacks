@@ -1,5 +1,6 @@
 deploy-gitlab:
-  <<: *deploy
+  # <<: *deploy
+  extends: .deploy_template
   when: manual
   allow_failure: false
   variables:
@@ -11,7 +12,8 @@ deploy-gitlab:
         - ullrinfrastructure/gitlab/**/*
 
 deploy-gitlab-runner-01:
-  <<: *deploy
+  # <<: *deploy
+  extends: .deploy_template
   rules:
     - changes:
         - ullrinfrastructure/gitlab-runner/**/*
@@ -21,7 +23,8 @@ deploy-gitlab-runner-01:
     STACK_NAME: "gitlab-runner"
 
 deploy-infra-monitoring:
-  <<: *deploy
+  # <<: *deploy
+  extends: .deploy_template
   rules:
     - changes:
         - ullrinfrastructure/infra-monitoring/**/*
@@ -34,7 +37,8 @@ deploy-infra-monitoring:
 
 
 deploy-infisical:
-  <<: *deploy
+  # <<: *deploy
+  extends: .deploy_template
   rules:
     - changes:
         - ullrinfrastructure/infisical/**/*
@@ -45,7 +49,8 @@ deploy-infisical:
     ENV_FILE_PATH: "$INFISICAL_ENV_FILE"
 
 deploy-admin:
-  <<: *deploy
+  # <<: *deploy
+  extends: .deploy_template
   rules:
     - changes:
         - ullrinfrastructure/admin/**/*
