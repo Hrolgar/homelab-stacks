@@ -1,0 +1,20 @@
+groups:
+- name: gitlab
+  rules:
+  - alert: GitLabDown
+    expr: up{job="gitlab"} == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "GitLab instance unreachable"
+      description: "No metrics scraped from GitLab exporter for 2m."
+
+  - alert: GitLabRunnerOffline
+    expr: gitlab_runner_online == 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "GitLab runner offline"
+      description: "All GitLab runners appear offline."

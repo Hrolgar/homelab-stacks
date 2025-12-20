@@ -1,5 +1,6 @@
 global:
   scrape_interval: 15s
+  evaluation_interval: 15s
 
 
 alerting:
@@ -32,5 +33,9 @@ scrape_configs:
   - job_name: "cadvisor"
     static_configs:
       - targets: ["cadvisor:8080"]
+
+  - job_name: "proxmox"
+    static_configs:
+      - targets: ["10.69.1.11:9100"]
 
 

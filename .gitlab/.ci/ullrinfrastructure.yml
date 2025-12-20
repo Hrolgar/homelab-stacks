@@ -1,0 +1,56 @@
+deploy-gitlab:
+  <<: *deploy
+  when: manual
+  allow_failure: false
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "gitlab"
+  rules:
+    - changes:
+        - ullrinfrastructure/gitlab/**/*
+
+deploy-gitlab-runner-01:
+  <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/gitlab-runner/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "gitlab-runner"
+
+deploy-infra-monitoring:
+  <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/infra-monitoring/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "infra-monitoring"
+    FORCE_RECREATE: "--force-recreate"
+    ENV_FILE_PATH: "$MONITORING_ENV_FILE"
+
+
+deploy-infisical:
+  <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/infisical/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "infisical"
+    ENV_FILE_PATH: "$INFISICAL_ENV_FILE"
+
+deploy-admin:
+  <<: *deploy
+  rules:
+    - changes:
+        - ullrinfrastructure/admin/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "admin"
+    ENV_FILE_PATH: "$ADMIN_ENV_FILE"

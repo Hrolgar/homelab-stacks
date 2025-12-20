@@ -1,20 +1,21 @@
 groups:
-- name: homelab
+- name: node
   rules:
   - alert: HostDiskAlmostFull
     expr: node_filesystem_avail_bytes / node_filesystem_size_bytes < 0.10
     for: 10m
     labels:
       severity: warning
+    annotations:
+      summary: "Disk nearly full"
+      description: "{{ $labels.instance }} volume {{ $labels.mountpoint }} < 10% free."
 
-  - alert: ContainerHighCPU
-    expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+  - alert: HostOutOfMemorySoon
+    expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
     for: 5m
     labels:
       severity: warning
+    annotations:
+      summary: "Host low memory"
+      description: "{{ $labels.instance }} memory below 10%"
 
-  - alert: GitLabDown
-    expr: up{job="gitlab"} == 0
-    for: 2m
-    labels:
-      severity: critical

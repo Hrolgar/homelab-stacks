@@ -1,0 +1,8 @@
+- alert: HostOutOfMemorySoon
+  expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
+  for: 5m
+  labels:
+    severity: warning
+  annotations:
+    summary: "Host low memory"
+    description: "{{ $labels.instance }} memory below 10%"

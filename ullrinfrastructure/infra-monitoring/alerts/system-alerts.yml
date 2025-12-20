@@ -1,0 +1,11 @@
+groups:
+- name: system
+  rules:
+  - alert: DiskFillingSoon
+    expr: predict_linear(node_filesystem_free_bytes[6h], 24*3600) < 0
+    for: 15m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Disk filling within 24h"
+      description: "{{ $labels.instance }} {{ $labels.mountpoint }} predicted full in <24h."

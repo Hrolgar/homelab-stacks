@@ -1,0 +1,20 @@
+groups:
+- name: docker
+  rules:
+  - alert: ContainerHighCPU
+    expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High container CPU usage"
+      description: "{{ $labels.name }} using >80% CPU"
+
+  - alert: ContainerRestartLoop
+    expr: increase(container_restart_count_total[10m]) > 2
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Container restart loop"
+      description: "{{ $labels.name }} restarted >2 times in 10m"

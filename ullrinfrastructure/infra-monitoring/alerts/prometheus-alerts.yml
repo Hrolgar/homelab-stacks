@@ -1,0 +1,20 @@
+groups:
+- name: prometheus
+  rules:
+  - alert: PrometheusDown
+    expr: up{job="prometheus"} == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Prometheus down"
+      description: "No scrape data for Prometheus for 2m."
+
+  - alert: TooManySilences
+    expr: count(ALERTS{alertstate="suppressed"}) > 20
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Too many silenced alerts"
+      description: "More than 20 alerts suppressed — check Alertmanager."
