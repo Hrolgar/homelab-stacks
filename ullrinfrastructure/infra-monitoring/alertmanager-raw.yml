@@ -23,7 +23,7 @@ route:
         alertname: Watchdog
       receiver: null
 
-  receivers:
+receivers:
   - name: discord-critical
     discord_configs:
       - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
