@@ -2,7 +2,7 @@ stages:
   - deploy
 
 include:
-  - local: .gitlab/ci/deploy-template.yml
+  - local: .gitlab/ci/_deploy-template.yml
   - local: .gitlab/ci/ullrinfrastructure.yml
 
 # stages:
