@@ -17,4 +17,4 @@ groups:
       severity: warning
     annotations:
       summary: "Host low memory"
-      description: "{{ $labels.instance }} memory below 10%"
+      description: "{{ $labels.instance }} memory below 10%" 
