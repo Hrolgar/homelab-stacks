@@ -1,3 +1,9 @@
+variables:
+  DEPLOY_HOST: "10.69.1.50"
+  VM_NAME: "ullrinfrastructure"
+  STACK_NAME: "gitlab"
+
+
 deploy-gitlab:
   # <<: *deploy
   extends: .deploy_template
