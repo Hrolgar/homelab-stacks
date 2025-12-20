@@ -1,7 +1,6 @@
 groups:
   - name: infra-alerts
     rules:
-      # 🔥 Node Exporter Down
       - alert: NodeExporterDown
         expr: up{job="node-exporter"} == 0
         for: 1m
@@ -11,7 +10,6 @@ groups:
           summary: "Node exporter down"
           description: "The node exporter on {{ $labels.instance }} is unreachable."
 
-      # 💾 Host Out of Memory Soon
       - alert: HostOutOfMemorySoon
         expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
         for: 5m
@@ -21,7 +19,6 @@ groups:
           summary: "Host low memory"
           description: "{{ $labels.instance }} memory below 10% available."
 
-      # 💽 High Disk Usage
       - alert: HostDiskAlmostFull
         expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) < 0.15
         for: 10m
@@ -31,7 +28,6 @@ groups:
           summary: "Disk usage over 85%"
           description: "{{ $labels.instance }} {{ $labels.mountpoint }} has less than 15% disk space left."
 
-      # 🧮 High CPU Load
       - alert: HostHighLoad
         expr: node_load1 / count(node_cpu_seconds_total{mode="system"}) BY (instance) > 2
         for: 5m
@@ -41,7 +37,6 @@ groups:
           summary: "High load on {{ $labels.instance }}"
           description: "Load average is high for more than 5m."
 
-      # 💀 Prometheus Down
       - alert: PrometheusDown
         expr: up{job="prometheus"} == 0
         for: 1m
