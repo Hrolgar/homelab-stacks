@@ -30,7 +30,7 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - ./alertmanager-raw.yml:/etc/alertmanager/alertmanager.yml:ro
 
   alertmanager-discord:
     image: rogerrum/alertmanager-discord:latest
