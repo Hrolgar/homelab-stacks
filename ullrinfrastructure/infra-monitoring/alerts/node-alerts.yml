@@ -18,4 +18,4 @@ groups:
     annotations:
       summary: "Host low memory"
       description: "{{ $labels.instance }} memory below 10%"
-
+ 
