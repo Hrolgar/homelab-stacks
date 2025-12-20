@@ -23,22 +23,49 @@ route:
         alertname: Watchdog
       receiver: null
 
-receivers:
+  receivers:
   - name: discord-critical
-    webhook_configs:
+    discord_configs:
       - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
         send_resolved: true
-        message: '{{ template "discord.default.message" . }}'
+        title: "🚨 Critical alert: {{ .CommonLabels.alertname }}"
+        message: |
+          {{ range .Alerts }}
+          **Instance:** {{ .Labels.instance }}
+          **Summary:** {{ .Annotations.summary }}
+          **Description:** {{ .Annotations.description }}
+          **Severity:** {{ .Labels.severity }}
+          {{ end }}
 
   - name: discord-warning
-    webhook_configs:
+    discord_configs:
       - webhook_url: "${DISCORD_ALERT_WEBHOOK_URL}"
         send_resolved: true
-        message: '{{ template "discord.default.message" . }}'
+        title: "⚠️ Warning alert: {{ .CommonLabels.alertname }}"
+        message: |
+          {{ range .Alerts }}
+          **Instance:** {{ .Labels.instance }}
+          **Summary:** {{ .Annotations.summary }}
+          **Description:** {{ .Annotations.description }}
+          **Severity:** {{ .Labels.severity }}
+          {{ end }}
 
-# Optional: template tuning for message format
-templates:
-  - '/etc/alertmanager/templates/*.tmpl'
+# receivers:
+#   - name: discord-critical
+#     webhook_configs:
+#       - url: "${DISCORD_ALERT_WEBHOOK_URL}"
+#         send_resolved: true
+#         message: '{{ template "discord.default.message" . }}'
+
+#   - name: discord-warning
+#     webhook_configs:
+#       - url: "${DISCORD_ALERT_WEBHOOK_URL}"
+#         send_resolved: true
+#         message: '{{ template "discord.default.message" . }}'
+
+# # Optional: template tuning for message format
+# templates:
+#   - '/etc/alertmanager/templates/*.tmpl'
 
 
 # global:
