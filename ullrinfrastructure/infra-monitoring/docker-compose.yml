@@ -21,24 +21,24 @@ services:
     volumes:
       - /opt/nas/apps/infra-monitoring/grafana:/var/lib/grafana
 
-alertmanager:
-  image: prom/alertmanager:latest
-  container_name: alertmanager
-  restart: unless-stopped
-  command:
-    - /bin/sh
-    - -c
-    - |
-      apk add --no-cache gettext
-      envsubst < /etc/alertmanager/raw.yml > /etc/alertmanager/alertmanager.yml
-      /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
-  environment:
-    - DISCORD_ALERT_WEBHOOK_URL=${DISCORD_ALERT_WEBHOOK_URL}
-  ports:
-    - "9093:9093"
-  volumes:
-    - ./alertmanager-raw.yml:/etc/alertmanager/raw.yml:ro
-    - ./templates:/etc/alertmanager/templates
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: unless-stopped
+    command:
+      - /bin/sh
+      - -c
+      - |
+        apk add --no-cache gettext
+        envsubst < /etc/alertmanager/raw.yml > /etc/alertmanager/alertmanager.yml
+        /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
+    environment:
+      - DISCORD_ALERT_WEBHOOK_URL=${DISCORD_ALERT_WEBHOOK_URL}
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager-raw.yml:/etc/alertmanager/raw.yml:ro
+      - ./templates:/etc/alertmanager/templates
 
   node-exporter:
     image: prom/node-exporter:latest
