@@ -3,7 +3,7 @@ global:
   sendAnonymousUsage: false
 api:
   dashboard: true
-  insecure: false
+  insecure: true
 entryPoints:
   http:
     address: ":80"
