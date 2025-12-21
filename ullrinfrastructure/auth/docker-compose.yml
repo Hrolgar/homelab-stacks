@@ -21,16 +21,16 @@ services:
       - "./traefik/certs/acme.json:/acme.json"
 
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "whoami"
-    restart: unless-stopped
-    networks:
-      - proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
-      - "traefik.http.routers.whoami.entrypoints=http"
+  # whoami:
+  #   image: "traefik/whoami"
+  #   container_name: "whoami"
+  #   restart: unless-stopped
+  #   networks:
+  #     - proxy
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+  #     - "traefik.http.routers.whoami.entrypoints=http"
 
   # cloudflare-ddns:
   #   image: favonia/cloudflare-ddns:latest
@@ -140,9 +140,9 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./media:/media
-      - ./templates:/templates
-      - ./certs:/certs
+      - ./authentik/media:/media
+      - ./authentik/templates:/templates
+      - ./authentik/certs:/certs
     depends_on:
       postgresql:
         condition: service_healthy
