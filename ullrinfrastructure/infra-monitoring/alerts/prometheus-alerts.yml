@@ -10,6 +10,24 @@ groups:
       summary: "Prometheus down"
       description: "No scrape data for Prometheus for 2m."
 
+  - alert: AlertmanagerDown
+    expr: up{job="alertmanager"} == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Alertmanager down"
+      description: "Alertmanager instance {{ $labels.instance }} is unreachable."
+
+  - alert: GrafanaDown
+    expr: up{job="grafana"} == 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Grafana down"
+      description: "Grafana instance {{ $labels.instance }} is unreachable."
+
   - alert: TooManySilences
     expr: count(ALERTS{alertstate="suppressed"}) > 20
     for: 10m

@@ -10,24 +10,6 @@ groups:
           summary: "Node exporter down"
           description: "The node exporter on {{ $labels.instance }} is unreachable."
 
-      - alert: HostOutOfMemorySoon
-        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
-        for: 5m
-        labels:
-          severity: warning
-        annotations:
-          summary: "Host low memory"
-          description: "{{ $labels.instance }} memory below 10% available."
-
-      - alert: HostDiskAlmostFull
-        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) < 0.15
-        for: 10m
-        labels:
-          severity: warning
-        annotations:
-          summary: "Disk usage over 85%"
-          description: "{{ $labels.instance }} {{ $labels.mountpoint }} has less than 15% disk space left."
-
       - alert: HostHighLoad
         expr: node_load1 / count(node_cpu_seconds_total{mode="system"}) BY (instance) > 2
         for: 5m
@@ -36,12 +18,3 @@ groups:
         annotations:
           summary: "High load on {{ $labels.instance }}"
           description: "Load average is high for more than 5m."
-
-      - alert: PrometheusDown
-        expr: up{job="prometheus"} == 0
-        for: 1m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Prometheus server down"
-          description: "Prometheus instance {{ $labels.instance }} is unreachable."
