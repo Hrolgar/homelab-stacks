@@ -14,7 +14,6 @@ services:
       - "443:443"
       - "8088:8080"
     volumes:
-      - "traefik.enabled=true"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./traefik/traefik-config.yml:/etc/traefik/traefik.yml:ro"
       - "./traefik/dynamic:/dynamic:ro"
@@ -24,6 +23,7 @@ services:
 
   whoami:
     image: "traefik/whoami"
+    container_name: "whoami"
     restart: unless-stopped
     networks:
       - proxy
