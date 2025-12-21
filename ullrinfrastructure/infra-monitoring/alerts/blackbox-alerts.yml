@@ -1,0 +1,56 @@
+groups:
+- name: blackbox
+  rules:
+  - alert: EndpointDown
+    expr: probe_success == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Endpoint down: {{ $labels.instance }}"
+      description: "{{ $labels.instance }} has been unreachable for more than 2 minutes."
+
+  - alert: SlowProbe
+    expr: avg_over_time(probe_duration_seconds[1m]) > 5
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Slow probe for {{ $labels.instance }}"
+      description: "{{ $labels.instance }} probe taking longer than 5 seconds."
+
+  - alert: HttpStatusCodeNot2xx
+    expr: probe_http_status_code < 200 or probe_http_status_code >= 300
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "HTTP status code error on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} returned HTTP status code {{ $value }}."
+
+  - alert: SslCertificateExpiringSoon
+    expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 30
+    for: 1h
+    labels:
+      severity: warning
+    annotations:
+      summary: "SSL certificate expiring soon for {{ $labels.instance }}"
+      description: "SSL certificate for {{ $labels.instance }} expires in {{ $value }} days."
+
+  - alert: SslCertificateExpired
+    expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "SSL certificate expired for {{ $labels.instance }}"
+      description: "SSL certificate for {{ $labels.instance }} has expired."
+
+  - alert: BlackboxExporterDown
+    expr: up{job="blackbox-exporter"} == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Blackbox Exporter down"
+      description: "Blackbox Exporter is unreachable. All endpoint monitoring is down."
