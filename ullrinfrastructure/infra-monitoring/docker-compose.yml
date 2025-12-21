@@ -41,6 +41,7 @@ services:
       - DISCORD_USERNAME=Bot Alertmanager
       - DISCORD_AVATAR=https://raw.githubusercontent.com/prometheus/prometheus/main/documentation/images/prometheus-logo.png
       - LISTEN_ADDRESS=0.0.0.0:9094
+      - VERBOSE=ON
     restart: unless-stopped
 
 
