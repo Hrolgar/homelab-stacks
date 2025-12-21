@@ -75,4 +75,4 @@ deploy-auth:
     DEPLOY_HOST: "10.69.1.50"
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "auth"
-    # ENV_FILE_PATH: "$AUTH_ENV_FILE"
+    ENV_FILE_PATH: "$AUTH_ENV_FILE"

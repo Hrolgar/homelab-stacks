@@ -3,7 +3,7 @@ global:
   sendAnonymousUsage: false
 api:
   dashboard: true
-  insecure: true
+  insecure: false
   bufferingSize: 100
 entryPoints:
   http:
