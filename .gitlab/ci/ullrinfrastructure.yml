@@ -65,3 +65,14 @@ deploy-admin:
     VM_NAME: "ullrinfrastructure"
     STACK_NAME: "admin"
     ENV_FILE_PATH: "$ADMIN_ENV_FILE"
+
+deploy-auth:
+  extends: .deploy_template
+  rules:
+    - changes:
+        - ullrinfrastructure/auth/**/*
+  variables:
+    DEPLOY_HOST: "10.69.1.50"
+    VM_NAME: "ullrinfrastructure"
+    STACK_NAME: "auth"
+    # ENV_FILE_PATH: "$AUTH_ENV_FILE"
