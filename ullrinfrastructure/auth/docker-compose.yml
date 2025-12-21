@@ -18,7 +18,7 @@ services:
       - "./traefik/traefik-config.yml:/etc/traefik/traefik.yml:ro"
       - "./traefik/dynamic:/dynamic:ro"
       - "./traefik/logs:/logs"
-      - "./traefik/acme.json:/acme.json"
+      - "./traefik/certs/acme.json:/acme.json"
 
 
   whoami:
@@ -61,7 +61,7 @@ services:
       retries: 5
       timeout: 5s
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - ./authentik/data/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=${AUTHENTIK_PG_PASS}
       - POSTGRES_USER=authentik
@@ -81,7 +81,7 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - ./data/redis:/data
+      - ./authentik/data/redis:/data
     networks:
       - authentik-internal
 
@@ -99,8 +99,8 @@ services:
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
       - AUTHENTIK_ERROR_REPORTING__ENABLED=false
     volumes:
-      - ./media:/media
-      - ./templates:/templates
+      - ./authentik/media:/media
+      - ./authentik/templates:/templates
     depends_on:
       postgresql:
         condition: service_healthy
