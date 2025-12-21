@@ -28,6 +28,15 @@ groups:
       summary: "Grafana down"
       description: "Grafana instance {{ $labels.instance }} is unreachable."
 
+  - alert: CAdvisorDown
+    expr: up{job="cadvisor"} == 0
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "cAdvisor down"
+      description: "cAdvisor instance {{ $labels.instance }} is unreachable. Container metrics unavailable."
+
   - alert: TooManySilences
     expr: count(ALERTS{alertstate="suppressed"}) > 20
     for: 10m
