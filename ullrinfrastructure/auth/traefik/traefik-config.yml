@@ -3,7 +3,7 @@ global:
   sendAnonymousUsage: false
 api:
   dashboard: true
-  insecure: true
+  insecure: false
 entryPoints:
   http:
     address: ":80"
@@ -21,8 +21,11 @@ entryPoints:
           - main: hrolgar.com
             sans:
               - "*.hrolgar.com"
+          - main: ullrmedia.com
+            sans:
+              - "*.ullrmedia.com"
 serversTransport:
-  insecureSkipVerify: true
+  insecureSkipVerify: false
 
 certificatesResolvers:
   cloudflare:
