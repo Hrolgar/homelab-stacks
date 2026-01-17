@@ -32,7 +32,7 @@
 
         sudo chown -R hrolgar:hrolgar /opt/compose
 
-        cd /opt/compose
+        cd /opt/compose/homelab-stacks
         git fetch origin
         git reset --hard origin/main
     
