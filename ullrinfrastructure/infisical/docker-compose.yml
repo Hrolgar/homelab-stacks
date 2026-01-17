@@ -46,7 +46,7 @@ services:
       ALLOW_EMPTY_PASSWORD: "yes"
 
     volumes:
-      - /opt/nas/apps/infisical/redis/data:/data
+      - /opt/apps/infisical/redis/data:/data
 
     networks:
       - infisical
@@ -63,7 +63,7 @@ services:
       POSTGRES_DB: infisical
 
     volumes:
-      - /opt/nas/apps/infisical/postgres/data:/var/lib/postgresql/data
+      - /opt/apps/infisical/postgres/data:/var/lib/postgresql/data
 
     networks:
       - infisical
