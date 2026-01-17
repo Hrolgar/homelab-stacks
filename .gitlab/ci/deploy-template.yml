@@ -13,12 +13,12 @@
     - |
       # --- ensure target directory exists ---
       ssh $DEPLOY_USER@$DEPLOY_HOST "
-        mkdir -p /opt/compose/$VM_NAME/$STACK_NAME
+        mkdir -p /opt/compose/homelab-stacks/$VM_NAME/$STACK_NAME
       "
       # --- copy env file from CI runner ---
         if [ -n "${ENV_FILE_PATH:-}" ]; then
           scp "$ENV_FILE_PATH" \
-            $DEPLOY_USER@$DEPLOY_HOST:/opt/compose/$VM_NAME/$STACK_NAME/.env
+            $DEPLOY_USER@$DEPLOY_HOST:/opt/compose/homelab-stacks/$VM_NAME/$STACK_NAME/.env
         fi
 
       # --- deploy on remote host ---
